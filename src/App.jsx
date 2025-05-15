@@ -16,9 +16,6 @@ function App() {
     }
     fetch('https://easydev.club/api/v1/todos', requestOptions)
       .then(response => response.json())
-      .then(data => setTasks(data.data) 
-      
-      )
   },[Tasks])
 
 
