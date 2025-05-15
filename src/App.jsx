@@ -7,7 +7,10 @@ function App() {
 
   const [Tasks, setTasks] = useState([]);
 
-
+  // setTimeout(() => {
+  //   console.log(Tasks);
+    
+  // }, 5000);
 
   useEffect(() =>{
      fetch('https://easydev.club/api/v1/todos', {method: 'GET'})
@@ -31,11 +34,13 @@ function App() {
   }
 
   const putFetch = (obj) => {
-    // const id = obj.id    
+
     const requestOptions = {
       method: 'PUT',
       body: JSON.stringify(obj)
     }
+    
+
     fetch(`https://easydev.club/api/v1/todos/${obj.id}`, requestOptions)
       .then(response => {
         if (!response.ok){ throw new Error(response.status) } 
@@ -80,9 +85,20 @@ function App() {
   }
 }
 
-  const changeValue = () => {
-    
+  const changeValue = (id, value) => {
+    setTasks(tasks => 
+    tasks.map(task => 
+      task.id === id ? 
+        { ...task, title: value }
+        : task
+    )
+  );
+
+  const updatedTask = Tasks.find(task => task.id === id);
+  if (updatedTask) {
+    putFetch({ ...updatedTask, title: value });
   }
+}
 
   
 // if (value){
@@ -92,7 +108,7 @@ function App() {
   return (
     <>
       <InputTask onClickButton = { onClickButton }  />
-      <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox}></List>
+      <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue}></List>
     </>
   )
 }
