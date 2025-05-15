@@ -5,7 +5,10 @@ export default function InputTask({ onClickButton }){
 
     const [inputValue, setInputValue] = useState('');
     const onClick = () =>{
-        onClickButton(inputValue)
+        onClickButton({
+            title : inputValue,
+            isDone: false,
+        })
     }
     return (
         <>
