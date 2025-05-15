@@ -9,13 +9,16 @@ function App() {
 
   const onClickButton = (value) => {
     setTascks([...Tasks, value]);
-    console.log(Tasks);
-
   }
+  
+  const onClickDelete = (index) => {
+    setTascks(Tasks.filter((_, ind)=> ind !== index))
+  };
+
   return (
     <>
-      <InputTask onClickButton = {onClickButton}  />
-      <List inputList = {Tasks} ></List>
+      <InputTask onClickButton = { onClickButton }  />
+      <List inputList = { Tasks } onClickDelete = { onClickDelete } ></List>
 
 
     </>
