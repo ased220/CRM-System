@@ -5,7 +5,7 @@ import InputTask from './components/InputTask';
 
 function App() {
 
-  const [Tasks, setTascks] = useState([]);
+  const [Tasks, setTasks] = useState([]);
 
 
   useEffect(() =>{
@@ -16,20 +16,18 @@ function App() {
     }
     fetch('https://easydev.club/api/v1/todos', requestOptions)
       .then(response => response.json())
-      .then(data => {
-        console.log('123');
-        return setTascks(data) 
-      }
+      .then(data => setTasks(data.data) 
+      
       )
   },[Tasks])
 
 
   const onClickButton = (value) => {
-    setTascks([...Tasks, value]);
+    setTasks([...Tasks, value]);
   }
   
   const onClickDelete = (index) => {
-    setTascks(Tasks.filter((_, ind)=> ind !== index))
+    setTasks(Tasks.filter((_, ind)=> ind !== index))
   };
 
   return (
