@@ -14,7 +14,7 @@ function App() {
       headers: { 'Content-Type': 'application/json'},
       body: JSON.stringify(Tasks)
     }
-    fetch('/todos', requestOptions)
+    fetch('https://easydev.club/api/v1/todos', requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log('123');
