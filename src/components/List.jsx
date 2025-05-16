@@ -8,8 +8,8 @@ export default function List({ inputList, onClickDelete, changeCheckbox, changeV
     const [changeTitle, setChangeTitle] = useState('')
     let TasksIsDone = inputList;
     const location = useLocation();
-    
-    if (location.pathname == '/fulfill'){
+
+    if (location.pathname == '/atWork'){
         TasksIsDone = inputList.filter((element)=> element.isDone == false)
         
     }else if (location.pathname == '/done'){
@@ -51,6 +51,7 @@ export default function List({ inputList, onClickDelete, changeCheckbox, changeV
                                             <>
                                                 <input defaultValue={obj.title} onChange={(e) => setChangeTitle(e.target.value)} /> 
                                                 <button onClick={ () => editTitle( obj.id ) }> Cохранить </button>
+                                                <button onClick={ () => setEdit({id: obj.id, swap: true}) }> Отмена </button>
                                             </>
                                         )
                                     ):(

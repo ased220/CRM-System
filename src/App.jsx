@@ -104,15 +104,16 @@ function App() {
     <BrowserRouter>
     
       <InputTask onClickButton = { onClickButton }  />
+      
         <div>
           <Link to='/'>All</Link>
-          <Link to='/fulfill'> В процессе</Link>
+          <Link to='/atWork'> В процессе</Link>
           <Link to='/done'>Готово</Link>
         </div>
        <Routes>
 
         <Route path = '/' element = { <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
-        <Route path = '/fulfill' element = { <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
+        <Route path = '/atWork' element = { <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
         <Route path = '/done' element = { <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
 
         <Route path = '*' element = {<List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
