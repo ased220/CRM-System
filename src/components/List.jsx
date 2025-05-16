@@ -1,24 +1,33 @@
 import { useState } from 'react';
 import deleteIcon from '../assets/delete.svg'
 import EditIcon from '../assets/edit.svg'
+import { useLocation } from 'react-router';
 
 export default function List({ inputList, onClickDelete, changeCheckbox, changeValue}){
-    const [edit, setEdit] = useState(true);
+    const [edit, setEdit] = useState( {id: -1, swap: false});
     const [changeTitle, setChangeTitle] = useState('')
+    let TasksIsDone = inputList;
+    const location = useLocation();
     
+    if (location.pathname == '/fulfill'){
+        TasksIsDone = inputList.filter((element)=> element.isDone == false)
+        
+    }else if (location.pathname == '/done'){
+        TasksIsDone = inputList.filter((element)=> element.isDone == true)
+    }
 
     const editTitle = (id ) =>{
         
-        setEdit(true);
+        setEdit({id: id, swap: true});
         changeValue(id, changeTitle)
     }
     return (
         <>
             {
-                !inputList.length ? (
+                !TasksIsDone.length ? (
                     <p> Задачи отсутствуют </p>
                 ):(
-                    inputList.map((obj)=>{
+                    TasksIsDone.map((obj)=>{
                         
                         return (
                             <div key={obj.id}>
@@ -30,19 +39,29 @@ export default function List({ inputList, onClickDelete, changeCheckbox, changeV
                                         )
                                 }
                                 {
-                                    edit? (
+                                    edit.id == obj.id?(
+                                        edit.swap? (
+                                            <>
+                                                <p>{obj.title}</p>    
+                                                <img src={EditIcon} 
+                                                onClick = {() => setEdit({id: obj.id, swap: false}) }
+                                                style={{width: '50px', height: '50px', cursor: 'pointer'}} />
+                                            </>
+                                        ) :(
+                                            <>
+                                                <input defaultValue={obj.title} onChange={(e) => setChangeTitle(e.target.value)} /> 
+                                                <button onClick={ () => editTitle( obj.id ) }> Cохранить </button>
+                                            </>
+                                        )
+                                    ):(
                                         <>
-                                            <p>{obj.title}</p>    
-                                            <img src={EditIcon} 
-                                            onClick = {() => setEdit(false) }
-                                            style={{width: '50px', height: '50px', cursor: 'pointer'}} />
-                                        </>
-                                    ) :(
-                                        <>
-                                            <input defaultValue={obj.title} onChange={(e) => setChangeTitle(e.target.value)} /> 
-                                            <button onClick={ () => editTitle( obj.id ) }> Cохранить </button>
+                                        <p>{obj.title}</p>    
+                                        <img src={EditIcon} 
+                                        onClick = {() => setEdit({id: obj.id, swap: false}) }
+                                        style={{width: '50px', height: '50px', cursor: 'pointer'}} />
                                         </>
                                     )
+
                                 }
                                 <img src={deleteIcon}
                                     onClick = {() => onClickDelete(obj.id)} 

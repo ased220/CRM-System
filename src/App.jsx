@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route, Link } from "react-router";
+
 import './App.css'
 import List from './components/List';
 import InputTask from './components/InputTask';
-
+ 
 function App() {
 
   const [Tasks, setTasks] = useState([]);
-
-  // setTimeout(() => {
-  //   console.log(Tasks);
-    
-  // }, 5000);
 
   useEffect(() =>{
      fetch('https://easydev.club/api/v1/todos', {method: 'GET'})
@@ -101,14 +98,27 @@ function App() {
 }
 
   
-// if (value){
-//       task.value == value;
-//     }
-//     putFetch(task)
+
   return (
     <>
+    <BrowserRouter>
+    
       <InputTask onClickButton = { onClickButton }  />
-      <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue}></List>
+        <div>
+          <Link to='/'>All</Link>
+          <Link to='/fulfill'> В процессе</Link>
+          <Link to='/done'>Готово</Link>
+        </div>
+       <Routes>
+
+        <Route path = '/' element = { <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
+        <Route path = '/fulfill' element = { <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
+        <Route path = '/done' element = { <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
+
+        <Route path = '*' element = {<List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
+       </Routes>
+     </BrowserRouter>
+
     </>
   )
 }
