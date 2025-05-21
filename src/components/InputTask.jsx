@@ -17,6 +17,7 @@ export default function InputTask({ onClickButton }){
         } else {
             setIputError('Error')            
         }
+        setInputValue('')
     }
 
     return (

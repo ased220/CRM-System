@@ -8,13 +8,20 @@ function App() {
 
   const [Tasks, setTasks] = useState([]);
   const [activeLink, setActiveLink] = useState('/')
-  
+  const [countTasks, setCountTasks] = useState([0,0,0])
+
   useEffect(() =>{
      fetch('https://easydev.club/api/v1/todos', {method: 'GET'})
       .then(response => response.json())
       .then(data => setTasks(data.data))
   },[])
 
+  useEffect(()=>{
+
+    const filter = Tasks.filter(element => element.isDone === true).length
+    setCountTasks([Tasks.length, filter, Tasks.length - filter ])
+    
+  },[Tasks])
 
   const postFetch =  (obj) => {
     const requestOptions = {
@@ -101,6 +108,8 @@ function App() {
     setActiveLink(path);
   }
 
+  
+
   return (
     <>
     <BrowserRouter>
@@ -111,21 +120,23 @@ function App() {
           <Link to='/' 
             id={ activeLink == '/'? 'active': ' '}
             onClick={() => changeStyle('/')}
-          >Все</Link>
+          >{ `Все (${countTasks[0]})` }</Link>
+
           <Link to='/atWork'
             id={ activeLink == '/atWork'? 'active': ''}
             onClick={() => changeStyle('/atWork')}
-          > В процессе</Link>
+          > { `В процессе (${countTasks[2]})` }</Link>
+
           <Link to='/done'
             id={ activeLink == '/done'? 'active': ''}
             onClick={() => changeStyle('/done')}
-          >Готово</Link>
+          > { `Готово (${countTasks[1]})` } </Link>
          
         </div>
        <Routes>
 
         <Route path = '*' element = {<List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
-        {/* и без нижней части работает, но мб лучше с ней писать */}
+        {/* и без нижней части работает, но мб лучше с ней писать , короче понял зачем нужна нижняя часть но пока оставлю так*/}
         {/* <Route path = '/' element = { <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} /> */}
         {/* <Route path = '/atWork' element = { <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} />
         <Route path = '/done' element = { <List inputList = { Tasks } onClickDelete = { onClickDelete } changeCheckbox = {changeCheckbox} changeValue = {changeValue} />} /> */}
